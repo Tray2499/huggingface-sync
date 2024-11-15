@@ -1,0 +1,50 @@
+name: Sync Models
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Git LFS
+        run: |
+          sudo apt-get install git-lfs
+          git lfs install
+      
+      - name: Setup Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Create Directories
+        run: |
+          mkdir -p reports
+          mkdir -p temp_repos
+
+      - name: Sync Repositories
+        run: |
+          chmod +x ./scripts/sync_repos.sh
+          ./scripts/sync_repos.sh
+
+      - name: Commit Changes
+        run: |
+          git add .
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Sync: Updated repositories from Hugging Face $(date '+%Y-%m-%d %H:%M:%S')
+
+            $(cat reports/sync_report.md)"
+            git push
+          fi
