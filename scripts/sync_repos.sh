@@ -5,7 +5,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BASE_DIR="$(dirname "$SCRIPT_DIR")"
 REPORT_FILE="${BASE_DIR}/reports/sync_report.md"
-BASE_STORAGE_DIR="${BASE_DIR}/models"
+SPACES_DIR="${BASE_DIR}/spaces"
 START_TIME=$(date '+%Y-%m-%d %H:%M:%S')
 TOTAL=0
 SUCCESS=0
@@ -13,15 +13,16 @@ FAILED=0
 SKIPPED=0
 RESTORED=0
 START_SECONDS=$(date +%s)
+IN_SPACES_SECTION=false
 
 # 确保必要的目录存在
 mkdir -p "${BASE_DIR}/reports"
 mkdir -p "${BASE_DIR}/temp_repos"
-mkdir -p "${BASE_STORAGE_DIR}"
+mkdir -p "${SPACES_DIR}"
 
 # 初始化报告
 {
-  echo "# 👧 Hugging Face 模型同步报告"
+  echo "# 👧 Hugging Face Spaces 同步报告"
   echo ""
   echo "开始时间: $START_TIME"
   echo ""
@@ -29,49 +30,44 @@ mkdir -p "${BASE_STORAGE_DIR}"
   echo ""
 } > "${REPORT_FILE}"
 
-# 处理仓库路径
-process_repo_path() {
-  local repo=$1
-  # 移除开头的 models/ 或 models/spaces/（如果存在）
-  repo=${repo#models/}
-  repo=${repo#spaces/}
-  # 移除重复的路径部分
-  local base_name=$(basename "$repo")
-  local dir_name=$(dirname "$repo")
-  if [[ "$base_name" == "$dir_name" ]]; then
-    echo "$base_name"
-  else
-    echo "$repo"
-  fi
-}
-
 # 进入临时目录
 cd "${BASE_DIR}/temp_repos"
 
 # 读取仓库列表并处理每个仓库
-while IFS= read -r repo || [ -n "$repo" ]; do
+while IFS= read -r line || [ -n "$line" ]; do
   # 跳过空行和注释
-  [[ $repo =~ ^[[:space:]]*$ || $repo =~ ^# ]] && {
-    SKIPPED=$((SKIPPED + 1))
+  [[ $line =~ ^[[:space:]]*$ || $line =~ ^# ]] && continue
+  
+  # 检查是否是 spaces 区段标记
+  if [[ $line == "[spaces]" ]]; then
+    IN_SPACES_SECTION=true
     continue
-  }
+  elif [[ $line =~ ^\[.*\]$ ]]; then
+    IN_SPACES_SECTION=false
+    continue
+  fi
+  
+  # 只处理 spaces 区段中的内容
+  [ "$IN_SPACES_SECTION" = false ] && continue
+  
+  # 移除行首行尾的空白字符
+  repo=$(echo "$line" | sed 's/^[ \t]*//;s/[ \t]*$//')
+  [ -z "$repo" ] && continue
   
   TOTAL=$((TOTAL + 1))
   
-  # 处理仓库路径
-  clean_repo=$(process_repo_path "$repo")
-  repo_name=$(basename "$clean_repo")
-  target_dir="${BASE_STORAGE_DIR}/spaces/${clean_repo}"
+  repo_name=$(basename "$repo")
+  target_dir="${SPACES_DIR}/${repo}"
   
   # 检查仓库是否存在于 HF
-  if curl -s -o /dev/null -w "%{http_code}" "https://huggingface.co/spaces/$clean_repo" | grep -q "200"; then
+  if curl -s -o /dev/null -w "%{http_code}" "https://huggingface.co/spaces/${repo}" | grep -q "200"; then
     # 仓库存在，尝试克隆
-    if git clone "https://huggingface.co/spaces/$clean_repo" "$repo_name"; then
+    if git clone "https://huggingface.co/spaces/${repo}" "$repo_name"; then
       size=$(du -sh "$repo_name" | cut -f1)
       
       # 备份现有目录（如果存在）
       if [ -d "$target_dir" ]; then
-        backup_dir="${BASE_DIR}/backup/spaces/${clean_repo}"
+        backup_dir="${BASE_DIR}/backup/${repo}"
         mkdir -p "$(dirname "$backup_dir")"
         mv "$target_dir" "$backup_dir"
       fi
@@ -83,11 +79,11 @@ while IFS= read -r repo || [ -n "$repo" ]; do
       mkdir -p "$(dirname "$target_dir")"
       
       {
-        echo "### [${clean_repo}](https://huggingface.co/spaces/${clean_repo})"
+        echo "### [${repo}](https://huggingface.co/spaces/${repo})"
         echo ""
         echo "* 📦 仓库大小：${size}"
         echo "* ✅ 状态：同步成功"
-        echo "* 📂 本地目录：[\`models/spaces/${clean_repo}\`](file://${target_dir})"
+        echo "* 📂 本地目录：[\`spaces/${repo}\`](file://${target_dir})"
         echo ""
       } >> "${REPORT_FILE}"
       
@@ -96,7 +92,7 @@ while IFS= read -r repo || [ -n "$repo" ]; do
       SUCCESS=$((SUCCESS + 1))
     else
       {
-        echo "### [${clean_repo}](https://huggingface.co/spaces/${clean_repo})"
+        echo "### [${repo}](https://huggingface.co/spaces/${repo})"
         echo ""
         echo "* ❌ 状态：同步失败"
         echo ""
@@ -106,16 +102,16 @@ while IFS= read -r repo || [ -n "$repo" ]; do
   else
     if [ -d "$target_dir" ]; then
       {
-        echo "### [${clean_repo}](https://huggingface.co/spaces/${clean_repo})"
+        echo "### [${repo}](https://huggingface.co/spaces/${repo})"
         echo ""
         echo "* ⚠️ 状态：仓库不可访问，保留本地副本"
-        echo "* 📂 本地目录：[\`models/spaces/${clean_repo}\`](file://${target_dir})"
+        echo "* 📂 本地目录：[\`spaces/${repo}\`](file://${target_dir})"
         echo ""
       } >> "${REPORT_FILE}"
       SKIPPED=$((SKIPPED + 1))
     else
       {
-        echo "### [${clean_repo}](https://huggingface.co/spaces/${clean_repo})"
+        echo "### [${repo}](https://huggingface.co/spaces/${repo})"
         echo ""
         echo "* ⚠️ 状态：仓库不存在"
         echo ""
@@ -142,12 +138,12 @@ done
 
 # 恢复未能成功同步的仓库的备份
 if [ -d "backup" ]; then
-  find backup -type d -mindepth 3 | while read -r backup_repo; do
+  find backup -type d -mindepth 2 | while read -r backup_repo; do
     if [ -d "$backup_repo" ]; then
       repo_path=${backup_repo#backup/}
       if [ ! -f "temp_repos/$(basename "$repo_path").success" ]; then
-        mkdir -p "$(dirname "${BASE_STORAGE_DIR}/${repo_path}")"
-        mv "$backup_repo" "${BASE_STORAGE_DIR}/${repo_path}"
+        mkdir -p "$(dirname "${SPACES_DIR}/${repo_path}")"
+        mv "$backup_repo" "${SPACES_DIR}/${repo_path}"
         RESTORED=$((RESTORED + 1))
       fi
     fi
