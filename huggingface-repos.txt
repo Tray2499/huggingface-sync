@@ -1,5 +1,4 @@
 # Hugging Face Repositories Configuration
-# 使用 [spaces] 和 [models] 标记不同类型的仓库
 # spaces 格式：作者名/仓库名
 
 [spaces]
