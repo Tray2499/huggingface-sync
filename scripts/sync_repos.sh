@@ -5,7 +5,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BASE_DIR="$(dirname "$SCRIPT_DIR")"
 REPORT_FILE="${BASE_DIR}/reports/sync_report.md"
-BASE_STORAGE_DIR="${BASE_DIR}/models"  # 使用绝对路径
+BASE_STORAGE_DIR="${BASE_DIR}/models"
 START_TIME=$(date '+%Y-%m-%d %H:%M:%S')
 TOTAL=0
 SUCCESS=0
@@ -29,6 +29,22 @@ mkdir -p "${BASE_STORAGE_DIR}"
   echo ""
 } > "${REPORT_FILE}"
 
+# 处理仓库路径
+process_repo_path() {
+  local repo=$1
+  # 移除开头的 models/ 或 models/spaces/（如果存在）
+  repo=${repo#models/}
+  repo=${repo#spaces/}
+  # 移除重复的路径部分
+  local base_name=$(basename "$repo")
+  local dir_name=$(dirname "$repo")
+  if [[ "$base_name" == "$dir_name" ]]; then
+    echo "$base_name"
+  else
+    echo "$repo"
+  fi
+}
+
 # 进入临时目录
 cd "${BASE_DIR}/temp_repos"
 
@@ -41,44 +57,46 @@ while IFS= read -r repo || [ -n "$repo" ]; do
   }
   
   TOTAL=$((TOTAL + 1))
-  repo_name=$(basename "$repo")
-  user_name=$(dirname "$repo")
+  
+  # 处理仓库路径
+  clean_repo=$(process_repo_path "$repo")
+  repo_name=$(basename "$clean_repo")
+  target_dir="${BASE_STORAGE_DIR}/spaces/${clean_repo}"
   
   # 检查仓库是否存在于 HF
-  if curl -s -o /dev/null -w "%{http_code}" "https://huggingface.co/$repo" | grep -q "200"; then
+  if curl -s -o /dev/null -w "%{http_code}" "https://huggingface.co/spaces/$clean_repo" | grep -q "200"; then
     # 仓库存在，尝试克隆
-    if git clone "https://huggingface.co/$repo" "$repo_name"; then
+    if git clone "https://huggingface.co/spaces/$clean_repo" "$repo_name"; then
       size=$(du -sh "$repo_name" | cut -f1)
       
-      # 创建用户目录结构
-      user_dir="${BASE_STORAGE_DIR}/${user_name}"
-      mkdir -p "$user_dir"
+      # 备份现有目录（如果存在）
+      if [ -d "$target_dir" ]; then
+        backup_dir="${BASE_DIR}/backup/spaces/${clean_repo}"
+        mkdir -p "$(dirname "$backup_dir")"
+        mv "$target_dir" "$backup_dir"
+      fi
+      
+      # 移除.git目录
+      rm -rf "$repo_name/.git"
+      
+      # 创建目标目录的父目录
+      mkdir -p "$(dirname "$target_dir")"
       
       {
-        echo "### [${repo}](https://huggingface.co/${repo})"
+        echo "### [${clean_repo}](https://huggingface.co/spaces/${clean_repo})"
         echo ""
         echo "* 📦 仓库大小：${size}"
         echo "* ✅ 状态：同步成功"
-        echo "* 📂 本地目录：[\`models/${repo}\`](file://${BASE_STORAGE_DIR}/${repo})"
+        echo "* 📂 本地目录：[\`models/spaces/${clean_repo}\`](file://${target_dir})"
         echo ""
       } >> "${REPORT_FILE}"
       
-      # 如果克隆成功，将旧版本移动到 backup 目录
-      if [ -d "${BASE_STORAGE_DIR}/$repo" ]; then
-        backup_dir="${BASE_DIR}/backup/${user_name}"
-        mkdir -p "$backup_dir"
-        mv "${BASE_STORAGE_DIR}/$repo" "$backup_dir/"
-      fi
-      
-      # 移除.git目录使其成为独立副本
-      rm -rf "$repo_name/.git"
-      
-      # 标记这个仓库已成功同步
-      echo "${user_dir}/${repo_name}" > "$repo_name.success"
+      # 标记成功
+      echo "$target_dir" > "$repo_name.success"
       SUCCESS=$((SUCCESS + 1))
     else
       {
-        echo "### [${repo}](https://huggingface.co/${repo})"
+        echo "### [${clean_repo}](https://huggingface.co/spaces/${clean_repo})"
         echo ""
         echo "* ❌ 状态：同步失败"
         echo ""
@@ -86,18 +104,18 @@ while IFS= read -r repo || [ -n "$repo" ]; do
       FAILED=$((FAILED + 1))
     fi
   else
-    if [ -d "${BASE_STORAGE_DIR}/$repo" ]; then
+    if [ -d "$target_dir" ]; then
       {
-        echo "### [${repo}](https://huggingface.co/${repo})"
+        echo "### [${clean_repo}](https://huggingface.co/spaces/${clean_repo})"
         echo ""
         echo "* ⚠️ 状态：仓库不可访问，保留本地副本"
-        echo "* 📂 本地目录：[\`models/${repo}\`](file://${BASE_STORAGE_DIR}/${repo})"
+        echo "* 📂 本地目录：[\`models/spaces/${clean_repo}\`](file://${target_dir})"
         echo ""
       } >> "${REPORT_FILE}"
       SKIPPED=$((SKIPPED + 1))
     else
       {
-        echo "### [${repo}](https://huggingface.co/${repo})"
+        echo "### [${clean_repo}](https://huggingface.co/spaces/${clean_repo})"
         echo ""
         echo "* ⚠️ 状态：仓库不存在"
         echo ""
@@ -124,7 +142,7 @@ done
 
 # 恢复未能成功同步的仓库的备份
 if [ -d "backup" ]; then
-  find backup -type d -mindepth 2 | while read -r backup_repo; do
+  find backup -type d -mindepth 3 | while read -r backup_repo; do
     if [ -d "$backup_repo" ]; then
       repo_path=${backup_repo#backup/}
       if [ ! -f "temp_repos/$(basename "$repo_path").success" ]; then
