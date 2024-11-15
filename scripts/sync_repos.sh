@@ -13,11 +13,12 @@ START_SECONDS=$(date +%s)
 
 # 初始化报告
 {
-  echo "🤗 Hugging Face 模型同步报告"
+  echo "# 🤗 Hugging Face 模型同步报告"
   echo ""
   echo "开始时间: $START_TIME"
   echo ""
-  echo "📝 详细日志"
+  echo "## 📝 详细日志"
+  echo ""
 } > "${REPORT_FILE}"
 
 # 进入临时目录
@@ -105,13 +106,14 @@ DURATION=$((END_SECONDS - START_SECONDS))
 # 添加统计信息到报告
 {
   echo ""
-  echo "📊 统计信息"
-  echo "- 总仓库数: ${TOTAL}"
-  echo "- 成功同步: ${SUCCESS}"
-  echo "- 同步失败: ${FAILED}"
-  echo "- 跳过同步: ${SKIPPED}"
-  echo "- 恢复备份: ${RESTORED}"
-  echo "- 总耗时: ${DURATION} 秒"
+  echo "## 📊 统计信息"
+  echo ""
+  echo "* 总仓库数: ${TOTAL}"
+  echo "* 成功同步: ${SUCCESS}"
+  echo "* 同步失败: ${FAILED}"
+  echo "* 跳过同步: ${SKIPPED}"
+  echo "* 恢复备份: ${RESTORED}"
+  echo "* 总耗时: ${DURATION} 秒"
   echo ""
   echo "完成时间: $(date '+%Y-%m-%d %H:%M:%S')"
 } >> "${REPORT_FILE}"
