@@ -17,7 +17,7 @@ START_SECONDS=$(date +%s)
   echo ""
   echo "开始时间: $START_TIME"
   echo ""
-  echo "## 📝 详细日志"
+  echo "## 📝 同步详情"
   echo ""
 } > "${REPORT_FILE}"
 
@@ -41,9 +41,10 @@ while IFS= read -r repo || [ -n "$repo" ]; do
     if git clone "https://huggingface.co/$repo" "$repo_name"; then
       size=$(du -sh "$repo_name" | cut -f1)
       {
-        echo "* 🔄 处理仓库: $repo"
-        echo "* ✅ 成功同步: $repo"
-        echo "* 📦 仓库大小: ${size}"
+        echo "### [${repo}](https://huggingface.co/${repo})"
+        echo ""
+        echo "* 📦 仓库大小：${size}"
+        echo "* ✅ 状态：同步成功"
         echo ""
       } >> "../${REPORT_FILE}"
       
@@ -61,8 +62,9 @@ while IFS= read -r repo || [ -n "$repo" ]; do
       SUCCESS=$((SUCCESS + 1))
     else
       {
-        echo "* 🔄 处理仓库: $repo"
-        echo "* ❌ 同步失败"
+        echo "### [${repo}](https://huggingface.co/${repo})"
+        echo ""
+        echo "* ❌ 状态：同步失败"
         echo ""
       } >> "../${REPORT_FILE}"
       FAILED=$((FAILED + 1))
@@ -70,15 +72,17 @@ while IFS= read -r repo || [ -n "$repo" ]; do
   else
     if [ -d "../$repo_name" ]; then
       {
-        echo "* 🔄 处理仓库: $repo"
-        echo "* ⚠️ 仓库不可访问，保留本地副本"
+        echo "### [${repo}](https://huggingface.co/${repo})"
+        echo ""
+        echo "* ⚠️ 状态：仓库不可访问，保留本地副本"
         echo ""
       } >> "../${REPORT_FILE}"
       SKIPPED=$((SKIPPED + 1))
     else
       {
-        echo "* 🔄 处理仓库: $repo"
-        echo "* ⚠️ 仓库不存在"
+        echo "### [${repo}](https://huggingface.co/${repo})"
+        echo ""
+        echo "* ⚠️ 状态：仓库不存在"
         echo ""
       } >> "../${REPORT_FILE}"
       FAILED=$((FAILED + 1))
@@ -122,7 +126,6 @@ DURATION=$((END_SECONDS - START_SECONDS))
 
 # 添加统计信息到报告
 {
-  echo ""
   echo "## 📊 统计信息"
   echo ""
   echo "* 总仓库数: ${TOTAL}"
