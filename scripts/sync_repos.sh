@@ -2,8 +2,10 @@
 set -e
 
 # 初始化变量
-REPORT_FILE="reports/sync_report.md"
-BASE_STORAGE_DIR="models"  # 新增：基础存储目录
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BASE_DIR="$(dirname "$SCRIPT_DIR")"
+REPORT_FILE="${BASE_DIR}/reports/sync_report.md"
+BASE_STORAGE_DIR="${BASE_DIR}/models"  # 使用绝对路径
 START_TIME=$(date '+%Y-%m-%d %H:%M:%S')
 TOTAL=0
 SUCCESS=0
@@ -11,6 +13,11 @@ FAILED=0
 SKIPPED=0
 RESTORED=0
 START_SECONDS=$(date +%s)
+
+# 确保必要的目录存在
+mkdir -p "${BASE_DIR}/reports"
+mkdir -p "${BASE_DIR}/temp_repos"
+mkdir -p "${BASE_STORAGE_DIR}"
 
 # 初始化报告
 {
@@ -23,7 +30,7 @@ START_SECONDS=$(date +%s)
 } > "${REPORT_FILE}"
 
 # 进入临时目录
-cd temp_repos
+cd "${BASE_DIR}/temp_repos"
 
 # 读取仓库列表并处理每个仓库
 while IFS= read -r repo || [ -n "$repo" ]; do
@@ -35,7 +42,7 @@ while IFS= read -r repo || [ -n "$repo" ]; do
   
   TOTAL=$((TOTAL + 1))
   repo_name=$(basename "$repo")
-  user_name=$(dirname "$repo")  # 新增：获取用户名
+  user_name=$(dirname "$repo")
   
   # 检查仓库是否存在于 HF
   if curl -s -o /dev/null -w "%{http_code}" "https://huggingface.co/$repo" | grep -q "200"; then
@@ -44,7 +51,7 @@ while IFS= read -r repo || [ -n "$repo" ]; do
       size=$(du -sh "$repo_name" | cut -f1)
       
       # 创建用户目录结构
-      user_dir="../${BASE_STORAGE_DIR}/${user_name}"
+      user_dir="${BASE_STORAGE_DIR}/${user_name}"
       mkdir -p "$user_dir"
       
       {
@@ -52,14 +59,15 @@ while IFS= read -r repo || [ -n "$repo" ]; do
         echo ""
         echo "* 📦 仓库大小：${size}"
         echo "* ✅ 状态：同步成功"
-        echo "* 📂 本地目录：[\`${BASE_STORAGE_DIR}/${repo}\`](file://${BASE_STORAGE_DIR}/${repo})"
+        echo "* 📂 本地目录：[\`models/${repo}\`](file://${BASE_STORAGE_DIR}/${repo})"
         echo ""
-      } >> "../${REPORT_FILE}"
+      } >> "${REPORT_FILE}"
       
       # 如果克隆成功，将旧版本移动到 backup 目录
-      if [ -d "../${BASE_STORAGE_DIR}/$repo" ]; then
-        mkdir -p "../backup/${user_name}"
-        mv "../${BASE_STORAGE_DIR}/$repo" "../backup/${user_name}/"
+      if [ -d "${BASE_STORAGE_DIR}/$repo" ]; then
+        backup_dir="${BASE_DIR}/backup/${user_name}"
+        mkdir -p "$backup_dir"
+        mv "${BASE_STORAGE_DIR}/$repo" "$backup_dir/"
       fi
       
       # 移除.git目录使其成为独立副本
@@ -74,18 +82,18 @@ while IFS= read -r repo || [ -n "$repo" ]; do
         echo ""
         echo "* ❌ 状态：同步失败"
         echo ""
-      } >> "../${REPORT_FILE}"
+      } >> "${REPORT_FILE}"
       FAILED=$((FAILED + 1))
     fi
   else
-    if [ -d "../${BASE_STORAGE_DIR}/$repo" ]; then
+    if [ -d "${BASE_STORAGE_DIR}/$repo" ]; then
       {
         echo "### [${repo}](https://huggingface.co/${repo})"
         echo ""
         echo "* ⚠️ 状态：仓库不可访问，保留本地副本"
-        echo "* 📂 本地目录：[\`${BASE_STORAGE_DIR}/${repo}\`](file://${BASE_STORAGE_DIR}/${repo})"
+        echo "* 📂 本地目录：[\`models/${repo}\`](file://${BASE_STORAGE_DIR}/${repo})"
         echo ""
-      } >> "../${REPORT_FILE}"
+      } >> "${REPORT_FILE}"
       SKIPPED=$((SKIPPED + 1))
     else
       {
@@ -93,14 +101,14 @@ while IFS= read -r repo || [ -n "$repo" ]; do
         echo ""
         echo "* ⚠️ 状态：仓库不存在"
         echo ""
-      } >> "../${REPORT_FILE}"
+      } >> "${REPORT_FILE}"
       FAILED=$((FAILED + 1))
     fi
   fi
-done < ../huggingface-repos.txt
+done < "${BASE_DIR}/huggingface-repos.txt"
 
 # 返回主目录
-cd ..
+cd "${BASE_DIR}"
 
 # 只移动成功同步的仓库
 for success_file in temp_repos/*.success; do
