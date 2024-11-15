@@ -40,7 +40,11 @@ while IFS= read -r repo || [ -n "$repo" ]; do
     # 仓库存在，尝试克隆
     if git clone "https://huggingface.co/$repo" "$repo_name"; then
       size=$(du -sh "$repo_name" | cut -f1)
-      echo "🔄 处理仓库: $repo ✅ 成功同步: $repo (大小: ${size})" >> "../${REPORT_FILE}"
+      {
+        echo "🔄 处理仓库: $repo"
+        echo "✅ 成功同步: $repo (大小: ${size})"
+        echo ""
+      } >> "../${REPORT_FILE}"
       
       # 如果克隆成功，将旧版本移动到 backup 目录
       if [ -d "../$repo_name" ]; then
@@ -55,15 +59,27 @@ while IFS= read -r repo || [ -n "$repo" ]; do
       touch "$repo_name.success"
       SUCCESS=$((SUCCESS + 1))
     else
-      echo "🔄 处理仓库: $repo ❌ 同步失败: $repo" >> "../${REPORT_FILE}"
+      {
+        echo "🔄 处理仓库: $repo"
+        echo "❌ 同步失败: $repo"
+        echo ""
+      } >> "../${REPORT_FILE}"
       FAILED=$((FAILED + 1))
     fi
   else
     if [ -d "../$repo_name" ]; then
-      echo "🔄 处理仓库: $repo ⚠️ 仓库不可访问，保留本地副本" >> "../${REPORT_FILE}"
+      {
+        echo "🔄 处理仓库: $repo"
+        echo "⚠️ 仓库不可访问，保留本地副本"
+        echo ""
+      } >> "../${REPORT_FILE}"
       SKIPPED=$((SKIPPED + 1))
     else
-      echo "🔄 处理仓库: $repo ⚠️ 仓库不存在" >> "../${REPORT_FILE}"
+      {
+        echo "🔄 处理仓库: $repo"
+        echo "⚠️ 仓库不存在"
+        echo ""
+      } >> "../${REPORT_FILE}"
       FAILED=$((FAILED + 1))
     fi
   fi
