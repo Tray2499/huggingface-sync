@@ -3,6 +3,9 @@ name: Sync Models
 on:
   schedule:
     - cron: '0 0 * * *'
+  push:
+    paths:
+      - 'huggingface-repos.txt'
   workflow_dispatch:
 
 permissions:
