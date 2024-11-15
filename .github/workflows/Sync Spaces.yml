@@ -1,4 +1,4 @@
-name: Sync Models
+name: Sync Spaces
 
 on:
   schedule:
@@ -46,7 +46,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Sync: Updated repositories from Hugging Face $(date '+%Y-%m-%d %H:%M:%S')
+            git commit -m "Sync: Updated Hugging Face spaces $(date '+%Y-%m-%d %H:%M:%S')
 
             $(cat reports/sync_report.md)"
             git push
