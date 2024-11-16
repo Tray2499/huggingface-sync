@@ -4,7 +4,7 @@ set -e
 # 初始化变量
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BASE_DIR="$(dirname "$SCRIPT_DIR")"
-REPORT_FILE="${BASE_DIR}/reports/sync_report.md"
+README_FILE="${BASE_DIR}/README.md"
 SPACES_DIR="${BASE_DIR}/spaces"
 START_TIME=$(date '+%Y-%m-%d %H:%M:%S')
 TOTAL=0
@@ -16,11 +16,10 @@ START_SECONDS=$(date +%s)
 IN_SPACES_SECTION=false
 
 # 确保必要的目录存在
-mkdir -p "${BASE_DIR}/reports"
-mkdir -p "${BASE_DIR}/temp_repos"
 mkdir -p "${SPACES_DIR}"
+mkdir -p "${BASE_DIR}/temp_repos"
 
-# 初始化报告
+# 初始化自述文件
 {
   echo "# 👧 Hugging Face Spaces 同步报告"
   echo ""
@@ -28,7 +27,7 @@ mkdir -p "${SPACES_DIR}"
   echo ""
   echo "## 📝 同步详情"
   echo ""
-} > "${REPORT_FILE}"
+} > "${README_FILE}"
 
 # 进入临时目录
 cd "${BASE_DIR}/temp_repos"
@@ -85,7 +84,7 @@ while IFS= read -r line || [ -n "$line" ]; do
         echo "* ✅ 状态：同步成功"
         echo "* 📂 本地目录：[\`spaces/${repo}\`](file://${target_dir})"
         echo ""
-      } >> "${REPORT_FILE}"
+      } >> "${README_FILE}"
       
       # 标记成功
       echo "$target_dir" > "$repo_name.success"
@@ -96,7 +95,7 @@ while IFS= read -r line || [ -n "$line" ]; do
         echo ""
         echo "* ❌ 状态：同步失败"
         echo ""
-      } >> "${REPORT_FILE}"
+      } >> "${README_FILE}"
       FAILED=$((FAILED + 1))
     fi
   else
@@ -107,7 +106,7 @@ while IFS= read -r line || [ -n "$line" ]; do
         echo "* ⚠️ 状态：仓库不可访问，保留本地副本"
         echo "* 📂 本地目录：[\`spaces/${repo}\`](file://${target_dir})"
         echo ""
-      } >> "${REPORT_FILE}"
+      } >> "${README_FILE}"
       SKIPPED=$((SKIPPED + 1))
     else
       {
@@ -115,7 +114,7 @@ while IFS= read -r line || [ -n "$line" ]; do
         echo ""
         echo "* ⚠️ 状态：仓库不存在"
         echo ""
-      } >> "${REPORT_FILE}"
+      } >> "${README_FILE}"
       FAILED=$((FAILED + 1))
     fi
   fi
@@ -170,4 +169,4 @@ DURATION=$((END_SECONDS - START_SECONDS))
   echo "* 总耗时: ${DURATION} 秒"
   echo ""
   echo "完成时间: $(date '+%Y-%m-%d %H:%M:%S')"
-} >> "${REPORT_FILE}"
+} >> "${README_FILE}"
