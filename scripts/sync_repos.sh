@@ -5,6 +5,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BASE_DIR="$(dirname "$SCRIPT_DIR")"
 REPORT_FILE="${BASE_DIR}/reports/sync_report.md"
+README_FILE="${BASE_DIR}/README.md"
 SPACES_DIR="${BASE_DIR}/spaces"
 START_TIME=$(date '+%Y-%m-%d %H:%M:%S')
 TOTAL=0
@@ -19,6 +20,13 @@ IN_SPACES_SECTION=false
 mkdir -p "${BASE_DIR}/reports"
 mkdir -p "${BASE_DIR}/temp_repos"
 mkdir -p "${SPACES_DIR}"
+
+# 更新根目录的 README.md
+{
+  echo "# 👧 Hugging Face Spaces 同步工具"
+  echo ""
+  echo "📊 [查看最新同步报告](reports/sync_report.md)"
+} > "${README_FILE}"
 
 # 初始化报告
 {
@@ -83,7 +91,7 @@ while IFS= read -r line || [ -n "$line" ]; do
         echo ""
         echo "* 📦 仓库大小：${size}"
         echo "* ✅ 状态：同步成功"
-        echo "* 📂 本地目录：[\`spaces/${repo}\`](file://${target_dir})"
+        echo "* 📂 本地目录：[\`spaces/${repo}\`](../../spaces/${repo})"
         echo ""
       } >> "${REPORT_FILE}"
       
@@ -105,7 +113,7 @@ while IFS= read -r line || [ -n "$line" ]; do
         echo "### [${repo}](https://huggingface.co/spaces/${repo})"
         echo ""
         echo "* ⚠️ 状态：仓库不可访问，保留本地副本"
-        echo "* 📂 本地目录：[\`spaces/${repo}\`](file://${target_dir})"
+        echo "* 📂 本地目录：[\`spaces/${repo}\`](../../spaces/${repo})"
         echo ""
       } >> "${REPORT_FILE}"
       SKIPPED=$((SKIPPED + 1))
