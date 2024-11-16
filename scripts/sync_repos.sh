@@ -23,14 +23,14 @@ mkdir -p "${SPACES_DIR}"
 
 # 更新根目录的 README.md
 {
-  echo "# 👧 Hugging Face Spaces 同步工具"
+  echo "# 🤗 Hugging Face Spaces 同步工具"
   echo ""
   echo "📊 [查看最新同步报告](reports/sync_report.md)"
 } > "${README_FILE}"
 
 # 初始化报告
 {
-  echo "# 👧 Hugging Face Spaces 同步报告"
+  echo "# 🤗 Hugging Face Spaces 同步报告"
   echo ""
   echo "开始时间: $START_TIME"
   echo ""
