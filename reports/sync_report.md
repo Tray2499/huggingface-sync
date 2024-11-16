@@ -1,6 +1,6 @@
 # 👧 Hugging Face Spaces 同步报告
 
-开始时间: 2024-11-16 06:54:14
+开始时间: 2024-11-16 07:02:43
 
 ## 📝 同步详情
 
@@ -8,31 +8,31 @@
 
 * 📦 仓库大小：1.2M
 * ✅ 状态：同步成功
-* 📂 本地目录：[`spaces/IPGEO/Search`](../../spaces/IPGEO/Search)
+* 📂 本地目录：[`spaces/IPGEO/Search`](../spaces/IPGEO/Search)
 
 ### [IPGEO/Status](https://huggingface.co/spaces/IPGEO/Status)
 
 * 📦 仓库大小：472K
 * ✅ 状态：同步成功
-* 📂 本地目录：[`spaces/IPGEO/Status`](../../spaces/IPGEO/Status)
+* 📂 本地目录：[`spaces/IPGEO/Status`](../spaces/IPGEO/Status)
 
 ### [IPGEO/API](https://huggingface.co/spaces/IPGEO/API)
 
 * 📦 仓库大小：380K
 * ✅ 状态：同步成功
-* 📂 本地目录：[`spaces/IPGEO/API`](../../spaces/IPGEO/API)
+* 📂 本地目录：[`spaces/IPGEO/API`](../spaces/IPGEO/API)
 
 ### [IPGEO/Address](https://huggingface.co/spaces/IPGEO/Address)
 
 * 📦 仓库大小：272K
 * ✅ 状态：同步成功
-* 📂 本地目录：[`spaces/IPGEO/Address`](../../spaces/IPGEO/Address)
+* 📂 本地目录：[`spaces/IPGEO/Address`](../spaces/IPGEO/Address)
 
 ### [IPGEO/MyIP](https://huggingface.co/spaces/IPGEO/MyIP)
 
 * 📦 仓库大小：272K
 * ✅ 状态：同步成功
-* 📂 本地目录：[`spaces/IPGEO/MyIP`](../../spaces/IPGEO/MyIP)
+* 📂 本地目录：[`spaces/IPGEO/MyIP`](../spaces/IPGEO/MyIP)
 
 ## 📊 统计信息
 
@@ -43,4 +43,4 @@
 * 恢复备份: 0
 * 总耗时: 2 秒
 
-完成时间: 2024-11-16 06:54:16
+完成时间: 2024-11-16 07:02:45
