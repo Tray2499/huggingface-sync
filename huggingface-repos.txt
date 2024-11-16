@@ -4,3 +4,6 @@
 [spaces]
 IPGEO/Search
 IPGEO/Status
+IPGEO/API
+IPGEO/Address
+IPGEO/MyIP
