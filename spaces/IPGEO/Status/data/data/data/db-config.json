@@ -1,0 +1,8 @@
+{
+  "type": %(ENV_UPTIME_KUMA_DB_TYPE)s,
+  "host": %(ENV_UPTIME_KUMA_DB_HOSTNAME)s,
+  "port": %(ENV_UPTIME_KUMA_DB_PORT)s,
+  "user": %(ENV_UPTIME_KUMA_DB_USERNAME)s,
+  "password": %(ENV_UPTIME_KUMA_DB_PASSWORD)s,
+  "database": %(ENV_UPTIME_KUMA_DB_NAME)s
+}

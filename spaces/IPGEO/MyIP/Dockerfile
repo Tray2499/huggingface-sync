@@ -1,0 +1,1 @@
+FROM ghcr.io/jason5ng32/myip:latest
