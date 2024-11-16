@@ -91,7 +91,7 @@ while IFS= read -r line || [ -n "$line" ]; do
         echo ""
         echo "* 📦 仓库大小：${size}"
         echo "* ✅ 状态：同步成功"
-        echo "* 📂 本地目录：[\`spaces/${repo}\`](../../spaces/${repo})"
+        echo "* 📂 本地目录：[\`spaces/${repo}\`](../spaces/${repo})"
         echo ""
       } >> "${REPORT_FILE}"
       
@@ -113,7 +113,7 @@ while IFS= read -r line || [ -n "$line" ]; do
         echo "### [${repo}](https://huggingface.co/spaces/${repo})"
         echo ""
         echo "* ⚠️ 状态：仓库不可访问，保留本地副本"
-        echo "* 📂 本地目录：[\`spaces/${repo}\`](../../spaces/${repo})"
+        echo "* 📂 本地目录：[\`spaces/${repo}\`](../spaces/${repo})"
         echo ""
       } >> "${REPORT_FILE}"
       SKIPPED=$((SKIPPED + 1))
