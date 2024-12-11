@@ -7,3 +7,6 @@ IPGEO/Status
 IPGEO/API
 IPGEO/Address
 IPGEO/MyIP
+sxwd/cloudreve
+sxwd/filen-webdav
+funowo/1
