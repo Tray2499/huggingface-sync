@@ -1,6 +1,6 @@
 # 🤗 Hugging Face Spaces 同步报告
 
-开始时间: 2024-12-11 00:45:13
+开始时间: 2024-12-11 18:40:38
 
 ## 📝 同步详情
 
@@ -34,13 +34,31 @@
 * ✅ 状态：同步成功
 * 📂 本地目录：[`spaces/IPGEO/MyIP`](../spaces/IPGEO/MyIP)
 
+### [sxwd/cloudreve](https://huggingface.co/spaces/sxwd/cloudreve)
+
+* 📦 仓库大小：760K
+* ✅ 状态：同步成功
+* 📂 本地目录：[`spaces/sxwd/cloudreve`](../spaces/sxwd/cloudreve)
+
+### [sxwd/filen-webdav](https://huggingface.co/spaces/sxwd/filen-webdav)
+
+* 📦 仓库大小：812K
+* ✅ 状态：同步成功
+* 📂 本地目录：[`spaces/sxwd/filen-webdav`](../spaces/sxwd/filen-webdav)
+
+### [funowo/1](https://huggingface.co/spaces/funowo/1)
+
+* 📦 仓库大小：268K
+* ✅ 状态：同步成功
+* 📂 本地目录：[`spaces/funowo/1`](../spaces/funowo/1)
+
 ## 📊 统计信息
 
-* 总仓库数: 5
-* 成功同步: 5
+* 总仓库数: 8
+* 成功同步: 8
 * 同步失败: 0
 * 跳过同步: 0
 * 恢复备份: 0
-* 总耗时: 2 秒
+* 总耗时: 5 秒
 
-完成时间: 2024-12-11 00:45:15
+完成时间: 2024-12-11 18:40:43

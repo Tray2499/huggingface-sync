@@ -1,0 +1,1 @@
+FROM ghcr.io/slinky8369/st:latest
