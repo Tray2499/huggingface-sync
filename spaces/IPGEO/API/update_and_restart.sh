@@ -16,10 +16,8 @@ while true; do
     
     nohup uvicorn main:app --host 0.0.0.0 --port 8080 --no-server-header --proxy-headers &
     
-    # 等待一段时间检查服务是否成功启动
     sleep 5
     
-    # 检查 uvicorn 是否正在运行
     if pgrep -f "uvicorn" > /dev/null; then
         echo "uvicorn restarted successfully."
     else
@@ -27,6 +25,5 @@ while true; do
         continue
     fi
 
-    # 每隔一段时间更新一次数据
     sleep 86400
 done
