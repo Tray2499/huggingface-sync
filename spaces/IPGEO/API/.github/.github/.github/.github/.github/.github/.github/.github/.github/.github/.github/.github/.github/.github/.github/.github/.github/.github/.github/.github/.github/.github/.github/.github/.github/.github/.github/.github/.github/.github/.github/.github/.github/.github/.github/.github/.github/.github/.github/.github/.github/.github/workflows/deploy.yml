@@ -1,0 +1,62 @@
+name: 部署到抱抱脸空间
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+  workflow_dispatch:
+  schedule:
+    - cron: '0 15 * * *' 
+    
+jobs:
+  check-secret:
+    runs-on: ubuntu-latest
+    outputs:
+      token-set: ${{ steps.check-key.outputs.defined }}
+    steps:
+      - id: check-key
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        if: "${{ env.HF_TOKEN != '' }}"
+        run: echo "defined=true" >> $GITHUB_OUTPUT
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [check-secret]
+    if: needs.check-secret.outputs.token-set == 'true'
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      HF_REPO: ${{ secrets.HF_REPO }}
+      HF_USER: ${{ secrets.HF_USER }}
+    steps:
+      - name: 检测仓库
+        uses: actions/checkout@v4
+
+      - name: 移除git历史记录
+        run: rm -rf .git
+
+      - name: 将YAML前言添加到README.md中
+        run: |
+          echo "---" > temp_readme.md
+          echo "title: API" >> temp_readme.md
+          echo "emoji: 📊" >> temp_readme.md
+          echo "colorFrom: purple" >> temp_readme.md
+          echo "colorTo: gray" >> temp_readme.md
+          echo "sdk: docker" >> temp_readme.md
+          echo "app_port: 8080" >> temp_readme.md
+          echo "---" >> temp_readme.md
+          cat README.md >> temp_readme.md
+          mv temp_readme.md README.md
+
+      - name: 配置git
+        run: |
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+      - name: 设置Git并推送到空间
+        run: |
+          git init --initial-branch=main
+          git lfs track "*.ttf"
+          git add .
+          git commit -m "GitHub deploy: ${{ github.sha }}"
+          git push --force https://${HF_USER}:${HF_TOKEN}@huggingface.co/spaces/${HF_USER}/${HF_REPO} main
