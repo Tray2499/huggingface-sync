@@ -1,8 +1,8 @@
 ---
 title: '1'
-emoji: 🐨
-colorFrom: yellow
-colorTo: yellow
+emoji: 👀
+colorFrom: indigo
+colorTo: purple
 sdk: docker
 pinned: false
 ---

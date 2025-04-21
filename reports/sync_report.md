@@ -1,6 +1,6 @@
 # 🤗 Hugging Face Spaces 同步报告
 
-开始时间: 2025-04-20 00:51:09
+开始时间: 2025-04-21 00:50:09
 
 ## 📝 同步详情
 
@@ -48,7 +48,7 @@
 
 ### [funowo/1](https://huggingface.co/spaces/funowo/1)
 
-* 📦 仓库大小：264K
+* 📦 仓库大小：268K
 * ✅ 状态：同步成功
 * 📂 本地目录：[`spaces/funowo/1`](../spaces/funowo/1)
 
@@ -60,7 +60,7 @@
 
 ### [rclon/web](https://huggingface.co/spaces/rclon/web)
 
-* 📦 仓库大小：244K
+* 📦 仓库大小：248K
 * ✅ 状态：同步成功
 * 📂 本地目录：[`spaces/rclon/web`](../spaces/rclon/web)
 
@@ -73,4 +73,4 @@
 * 恢复备份: 0
 * 总耗时: 5 秒
 
-完成时间: 2025-04-20 00:51:14
+完成时间: 2025-04-21 00:50:14
