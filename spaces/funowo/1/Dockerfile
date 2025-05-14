@@ -1,1 +1,1 @@
-FROM ghcr.io/slinky8369/st:latest
+FROM ghcr.io/slinky8369/st@sha256:1f9c45ea2909fed44363fb49ae908614c3861c297e5c25c09597c37ac841677e
