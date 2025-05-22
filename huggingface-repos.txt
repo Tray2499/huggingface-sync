@@ -12,3 +12,4 @@ sxwd/filen-webdav
 funowo/1
 rclon/na
 rclon/web
+i0110/dashboard
