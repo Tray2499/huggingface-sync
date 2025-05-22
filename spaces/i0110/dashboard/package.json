@@ -1,0 +1,15 @@
+{
+  "name": "hf-space-manager",
+  "version": "1.0.0",
+  "description": "HuggingFace instance manager dashboard",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.18.2",
+    "axios": "^1.6.2"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "MIT"
+}
