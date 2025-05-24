@@ -146,12 +146,15 @@ done
 
 # 恢复未能成功同步的仓库的备份
 if [ -d "backup" ]; then
-  find backup -type d -mindepth 2 | while read -r backup_repo; do
+  find backup -type d -mindepth 2 -maxdepth 2 | while read -r backup_repo; do
     if [ -d "$backup_repo" ]; then
       repo_path=${backup_repo#backup/}
-      if [ ! -f "temp_repos/$(basename "$repo_path").success" ]; then
-        mkdir -p "$(dirname "${SPACES_DIR}/${repo_path}")"
-        mv "$backup_repo" "${SPACES_DIR}/${repo_path}"
+      repo_base=$(basename "$repo_path")
+      repo_parent=$(dirname "$repo_path")
+      target_path="${SPACES_DIR}/${repo_parent}/${repo_base}"
+      if [ ! -f "temp_repos/${repo_base}.success" ]; then
+        mkdir -p "$(dirname "$target_path")"
+        mv "$backup_repo" "$target_path"
         RESTORED=$((RESTORED + 1))
       fi
     fi
