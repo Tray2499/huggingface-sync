@@ -1,6 +1,6 @@
 # 🤗 Hugging Face Spaces 同步报告
 
-开始时间: 2025-09-20 00:43:01
+开始时间: 2025-09-21 00:50:24
 
 ## 📝 同步详情
 
@@ -60,13 +60,13 @@
 
 ### [rclon/web](https://huggingface.co/spaces/rclon/web)
 
-* 📦 仓库大小：244K
+* 📦 仓库大小：248K
 * ✅ 状态：同步成功
 * 📂 本地目录：[`spaces/rclon/web`](../spaces/rclon/web)
 
 ### [i0110/dashboard](https://huggingface.co/spaces/i0110/dashboard)
 
-* 📦 仓库大小：524K
+* 📦 仓库大小：536K
 * ✅ 状态：同步成功
 * 📂 本地目录：[`spaces/i0110/dashboard`](../spaces/i0110/dashboard)
 
@@ -77,6 +77,6 @@
 * 同步失败: 0
 * 跳过同步: 0
 * 恢复备份: 0
-* 总耗时: 4 秒
+* 总耗时: 3 秒
 
-完成时间: 2025-09-20 00:43:05
+完成时间: 2025-09-21 00:50:27
