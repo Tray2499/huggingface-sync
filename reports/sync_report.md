@@ -1,6 +1,6 @@
 # 🤗 Hugging Face Spaces 同步报告
 
-开始时间: 2025-10-16 00:46:45
+开始时间: 2025-10-17 00:45:56
 
 ## 📝 同步详情
 
@@ -18,7 +18,7 @@
 
 ### [IPGEO/API](https://huggingface.co/spaces/IPGEO/API)
 
-* 📦 仓库大小：340K
+* 📦 仓库大小：336K
 * ✅ 状态：同步成功
 * 📂 本地目录：[`spaces/IPGEO/API`](../spaces/IPGEO/API)
 
@@ -66,7 +66,7 @@
 
 ### [i0110/dashboard](https://huggingface.co/spaces/i0110/dashboard)
 
-* 📦 仓库大小：540K
+* 📦 仓库大小：536K
 * ✅ 状态：同步成功
 * 📂 本地目录：[`spaces/i0110/dashboard`](../spaces/i0110/dashboard)
 
@@ -79,4 +79,4 @@
 * 恢复备份: 0
 * 总耗时: 4 秒
 
-完成时间: 2025-10-16 00:46:49
+完成时间: 2025-10-17 00:46:00
