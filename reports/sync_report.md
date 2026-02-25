@@ -1,54 +1,54 @@
 # 🤗 Hugging Face Spaces 同步报告
 
-开始时间: 2026-02-24 01:05:21
+开始时间: 2026-02-25 01:10:51
 
 ## 📝 同步详情
 
 ### [IPGEO/Search](https://huggingface.co/spaces/IPGEO/Search)
 
-* 📦 仓库大小：1.2M
+* 📦 仓库大小：324K
 * ✅ 状态：同步成功
 * 📂 本地目录：[`spaces/IPGEO/Search`](../spaces/IPGEO/Search)
 
 ### [IPGEO/Status](https://huggingface.co/spaces/IPGEO/Status)
 
-* 📦 仓库大小：468K
+* 📦 仓库大小：216K
 * ✅ 状态：同步成功
 * 📂 本地目录：[`spaces/IPGEO/Status`](../spaces/IPGEO/Status)
 
 ### [IPGEO/API](https://huggingface.co/spaces/IPGEO/API)
 
-* 📦 仓库大小：340K
+* 📦 仓库大小：272K
 * ✅ 状态：同步成功
 * 📂 本地目录：[`spaces/IPGEO/API`](../spaces/IPGEO/API)
 
 ### [IPGEO/Address](https://huggingface.co/spaces/IPGEO/Address)
 
-* 📦 仓库大小：268K
+* 📦 仓库大小：200K
 * ✅ 状态：同步成功
 * 📂 本地目录：[`spaces/IPGEO/Address`](../spaces/IPGEO/Address)
 
 ### [IPGEO/MyIP](https://huggingface.co/spaces/IPGEO/MyIP)
 
-* 📦 仓库大小：268K
+* 📦 仓库大小：200K
 * ✅ 状态：同步成功
 * 📂 本地目录：[`spaces/IPGEO/MyIP`](../spaces/IPGEO/MyIP)
 
 ### [sxwd/cloudreve](https://huggingface.co/spaces/sxwd/cloudreve)
 
-* 📦 仓库大小：756K
+* 📦 仓库大小：236K
 * ✅ 状态：同步成功
 * 📂 本地目录：[`spaces/sxwd/cloudreve`](../spaces/sxwd/cloudreve)
 
 ### [sxwd/filen-webdav](https://huggingface.co/spaces/sxwd/filen-webdav)
 
-* 📦 仓库大小：808K
+* 📦 仓库大小：232K
 * ✅ 状态：同步成功
 * 📂 本地目录：[`spaces/sxwd/filen-webdav`](../spaces/sxwd/filen-webdav)
 
 ### [funowo/1](https://huggingface.co/spaces/funowo/1)
 
-* 📦 仓库大小：292K
+* 📦 仓库大小：204K
 * ✅ 状态：同步成功
 * 📂 本地目录：[`spaces/funowo/1`](../spaces/funowo/1)
 
@@ -77,6 +77,6 @@
 * 同步失败: 0
 * 跳过同步: 0
 * 恢复备份: 0
-* 总耗时: 4 秒
+* 总耗时: 5 秒
 
-完成时间: 2026-02-24 01:05:25
+完成时间: 2026-02-25 01:10:56
