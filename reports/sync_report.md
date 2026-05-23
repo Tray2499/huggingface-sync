@@ -1,37 +1,32 @@
 # 🤗 Hugging Face Spaces 同步报告
 
-开始时间: 2026-05-22 02:06:04
+开始时间: 2026-05-23 01:55:03
 
 ## 📝 同步详情
 
 ### [IPGEO/Search](https://huggingface.co/spaces/IPGEO/Search)
 
-* 📦 仓库大小：324K
-* ✅ 状态：同步成功
+* ⚠️ 状态：仓库不可访问，保留本地副本
 * 📂 本地目录：[`spaces/IPGEO/Search`](../spaces/IPGEO/Search)
 
 ### [IPGEO/Status](https://huggingface.co/spaces/IPGEO/Status)
 
-* 📦 仓库大小：216K
-* ✅ 状态：同步成功
+* ⚠️ 状态：仓库不可访问，保留本地副本
 * 📂 本地目录：[`spaces/IPGEO/Status`](../spaces/IPGEO/Status)
 
 ### [IPGEO/API](https://huggingface.co/spaces/IPGEO/API)
 
-* 📦 仓库大小：272K
-* ✅ 状态：同步成功
+* ⚠️ 状态：仓库不可访问，保留本地副本
 * 📂 本地目录：[`spaces/IPGEO/API`](../spaces/IPGEO/API)
 
 ### [IPGEO/Address](https://huggingface.co/spaces/IPGEO/Address)
 
-* 📦 仓库大小：200K
-* ✅ 状态：同步成功
+* ⚠️ 状态：仓库不可访问，保留本地副本
 * 📂 本地目录：[`spaces/IPGEO/Address`](../spaces/IPGEO/Address)
 
 ### [IPGEO/MyIP](https://huggingface.co/spaces/IPGEO/MyIP)
 
-* 📦 仓库大小：200K
-* ✅ 状态：同步成功
+* ⚠️ 状态：仓库不可访问，保留本地副本
 * 📂 本地目录：[`spaces/IPGEO/MyIP`](../spaces/IPGEO/MyIP)
 
 ### [sxwd/cloudreve](https://huggingface.co/spaces/sxwd/cloudreve)
@@ -73,10 +68,10 @@
 ## 📊 统计信息
 
 * 总仓库数: 11
-* 成功同步: 11
+* 成功同步: 6
 * 同步失败: 0
-* 跳过同步: 0
+* 跳过同步: 5
 * 恢复备份: 0
 * 总耗时: 4 秒
 
-完成时间: 2026-05-22 02:06:08
+完成时间: 2026-05-23 01:55:07
