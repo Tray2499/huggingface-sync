@@ -1,6 +1,6 @@
 # 🤗 Hugging Face Spaces 同步报告
 
-开始时间: 2026-09-06 01:41:57
+开始时间: 2026-09-07 01:39:28
 
 ## 📝 同步详情
 
@@ -31,7 +31,9 @@
 
 ### [sxwd/cloudreve](https://huggingface.co/spaces/sxwd/cloudreve)
 
-* ❌ 状态：同步失败
+* 📦 仓库大小：236K
+* ✅ 状态：同步成功
+* 📂 本地目录：[`spaces/sxwd/cloudreve`](../spaces/sxwd/cloudreve)
 
 ### [sxwd/filen-webdav](https://huggingface.co/spaces/sxwd/filen-webdav)
 
@@ -66,10 +68,10 @@
 ## 📊 统计信息
 
 * 总仓库数: 11
-* 成功同步: 5
-* 同步失败: 1
+* 成功同步: 6
+* 同步失败: 0
 * 跳过同步: 5
 * 恢复备份: 0
 * 总耗时: 4 秒
 
-完成时间: 2026-09-06 01:42:01
+完成时间: 2026-09-07 01:39:32
